@@ -1,0 +1,10 @@
+class GameStats:
+    def __init__(self, ai_settings):
+        self.ai_settings = ai_settings
+        self.reset_stats() # initializing stats
+
+        self.game_active = True
+    
+    def reset_stats(self):
+        # initializes the stats / reset stats
+        self.ships_left = self.ai_settings.ship_limit
