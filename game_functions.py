@@ -89,12 +89,9 @@ def check_fleet_edges(ai_settings, aliens):
             break
 
 def ship_hit(ai_settings, screen, stats, ship, bullets, aliens, sb):
-    
+    stats.ships_left -= 1 # decrement numbers of ships left
     if stats.ships_left > 0 :
-        stats.ships_left -= 1 # decrement numbers of ships left
-        
         sb.prep_ships()
-
         # delete all the aliens and bullets
         aliens.empty()
         bullets.empty()
@@ -107,9 +104,11 @@ def ship_hit(ai_settings, screen, stats, ship, bullets, aliens, sb):
         sleep(0.5)
     else:
         # if no ship left Game Over
+        sb.prep_ships()
         stats.game_active = False
         pygame.mouse.set_visible(True)
     
+
    
 def check_alien_hit_bottom(ai_settings, screen, stats, ship, bullets, aliens, sb):
     # do same as ship_hit
