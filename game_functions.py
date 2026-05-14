@@ -88,10 +88,12 @@ def check_fleet_edges(ai_settings, aliens):
             change_fleet_direction(ai_settings, aliens)
             break
 
-def ship_hit(ai_settings, screen, stats, ship, bullets, aliens):
+def ship_hit(ai_settings, screen, stats, ship, bullets, aliens, sb):
     
     if stats.ships_left > 0 :
         stats.ships_left -= 1 # decrement numbers of ships left
+        
+        sb.prep_ships()
 
         # delete all the aliens and bullets
         aliens.empty()
@@ -107,25 +109,26 @@ def ship_hit(ai_settings, screen, stats, ship, bullets, aliens):
         # if no ship left Game Over
         stats.game_active = False
         pygame.mouse.set_visible(True)
-
-def check_alien_hit_bottom(ai_settings, screen, stats, ship, bullets, aliens):
+    
+   
+def check_alien_hit_bottom(ai_settings, screen, stats, ship, bullets, aliens, sb):
     # do same as ship_hit
     screen_rect = screen.get_rect()
     for alien in aliens:
         if alien.rect.bottom >= screen_rect.bottom:
-            ship_hit(ai_settings, screen, stats, ship, bullets, aliens)
+            ship_hit(ai_settings, screen, stats, ship, bullets, aliens,sb)
 
-def update_aliens(ai_settings, screen, stats, ship, bullets, aliens):
+def update_aliens(ai_settings, screen, stats, ship, bullets, aliens, sb):
     # check if the fleet hit the edge and update postions of all aliens
     check_fleet_edges(ai_settings, aliens)
     aliens.update()
 
     # Look for alien - ship collisions
     if pygame.sprite.spritecollideany(ship, aliens):
-        ship_hit(ai_settings, screen, stats, ship, bullets, aliens)
+        ship_hit(ai_settings, screen, stats, ship, bullets, aliens,sb)
 
     # check if any alien reaches the bottom then
-    check_alien_hit_bottom(ai_settings, screen, stats, ship, bullets, aliens)
+    check_alien_hit_bottom(ai_settings, screen, stats, ship, bullets, aliens, sb)
 
     
 # keyboard and mouse event functions / ship movements
@@ -154,8 +157,11 @@ def click_play_button(ai_settings, screen, stats,  aliens, ship, bullets,
         pygame.mouse.set_visible(False)
         # reset game
         stats.reset_stats()
+        
         sb.prep_score()
         sb.prep_level()
+        sb.prep_ships()
+
         aliens.empty() 
         bullets.empty()
         ai_settings.initialize_dynamic_settings() # making speeds default
