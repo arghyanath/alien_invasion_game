@@ -28,6 +28,8 @@ def check_bullet_collision(ai_settings, screen, bullets, aliens, ship, stats, sb
     if len(aliens) == 0: 
         bullets.empty()
         ai_settings.increase_speed()
+        stats.level += 1
+        sb.prep_level()
         create_fleet(ai_settings, screen, aliens, ship)
 
 def update_bullets(ai_settings, screen, bullets, aliens, ship, stats, sb):
@@ -153,6 +155,7 @@ def click_play_button(ai_settings, screen, stats,  aliens, ship, bullets,
         # reset game
         stats.reset_stats()
         sb.prep_score()
+        sb.prep_level()
         aliens.empty() 
         bullets.empty()
         ai_settings.initialize_dynamic_settings() # making speeds default
