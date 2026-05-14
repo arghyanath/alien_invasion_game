@@ -4,6 +4,11 @@ from bullet import Bullet
 from alien import Alien
 from time import sleep
 
+# check if high score
+def check_high_score(stats,sb):
+    if stats.score > stats.high_score:
+        stats.high_score = stats.score
+    sb.prep_high_score()
 
 # bullets fuctions
 def fire_bullet(ai_settings, screen, ship, bullets):
@@ -18,6 +23,7 @@ def check_bullet_collision(ai_settings, screen, bullets, aliens, ship, stats, sb
         for aliens in collisions.values():
             stats.score += ai_settings.alien_points * len(aliens)
         sb.prep_score()
+        check_high_score(stats, sb)
     # if all aliens eliminated, delete all bullets and respawn another fleet
     if len(aliens) == 0: 
         bullets.empty()
